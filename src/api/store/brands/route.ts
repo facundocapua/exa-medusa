@@ -8,7 +8,7 @@ export async function GET (req: MedusaRequest, res: MedusaResponse): Promise<Med
   const brandRepo = manager.withRepository(brandRepository)
 
   const handle = req.query.handle as string
-  const isFeatured = req.query.is_featured === 'true'
+  const isFeatured = req.query.is_featured === 'true' ? true : undefined
 
   return res.json({
     brands: await brandRepo.find({
