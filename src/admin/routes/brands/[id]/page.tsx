@@ -11,12 +11,13 @@ import BrandsEditLogo from '../../../components/brands/brands-edit-logo'
 import clsx from 'clsx'
 import StatusSelector from '../../../components/shared/status-selector'
 import useNotification from '../../../hooks/use-notification'
+import { ReactNode } from 'react'
 
 interface BrandResponse {
   brand: Brand
 }
 
-const BrandsEditPage = () => {
+const BrandsEditPage = (): ReactNode => {
   const [state, open, close] = useToggleState()
   const [stateLogoEdit, openLogoEdit, closeLogoEdit] = useToggleState()
   const { id } = useParams()
@@ -27,11 +28,9 @@ const BrandsEditPage = () => {
     `/brands/${id}`,
     ['brands']
   )
-  const onStatusChange = (status: boolean) => {
-    console.log(status)
+  const onStatusChange = (status: boolean): void => {
     brandPost.mutate({ is_active: status }, {
       onSuccess: (res) => {
-        console.log(res)
         notification(
           status ? 'Brand published' : 'Brand unpublished',
           `Successfully ${status ? 'published' : 'unpublished'} ${res.brand.name}`,
@@ -106,7 +105,7 @@ const BrandsEditPage = () => {
             </div>
             <div className='flex items-center justify-between text-grey-50'>
               <p>Is featured?</p>
-              <p>True</p>
+              <p>{ brand.is_featured ? 'True' : 'False' }</p>
             </div>
           </main>
         </Container>
@@ -116,9 +115,6 @@ const BrandsEditPage = () => {
             <div>
               <IconButton variant='transparent'>
                 <PencilSquare onClick={openLogoEdit} />
-              </IconButton>
-              <IconButton variant='transparent'>
-                <Trash />
               </IconButton>
             </div>
           </header>

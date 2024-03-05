@@ -8,6 +8,7 @@ import { Trash } from '@medusajs/icons'
 import { type FormImage } from '../../types/images'
 import { prepareImages } from '../../utils/images'
 import useNotification from '../../hooks/use-notification'
+import { ReactNode } from 'react'
 
 interface NewBrandForm {
   name: string
@@ -43,8 +44,8 @@ const createBlank = (): NewBrandForm => {
   }
 }
 
-export default function BrandsForm ({ open, onOpenChange }: Props) {
-  const { control, register, handleSubmit, formState: { errors, isDirty } } = useForm<NewBrandForm>({
+export default function BrandsForm ({ open, onOpenChange }: Props): ReactNode {
+  const { control, register, handleSubmit, formState: { errors, isDirty }, reset } = useForm<NewBrandForm>({
     defaultValues: createBlank()
   })
   const customPost = useAdminCustomPost<BrandRequest, BrandResponse>(
@@ -61,7 +62,6 @@ export default function BrandsForm ({ open, onOpenChange }: Props) {
   })
 
   const onSubmit: SubmitHandler<NewBrandForm> = async (data) => {
-    console.log(data)
     const payload: BrandRequest = {
       name: data.name,
       handle: data.handle,
@@ -105,11 +105,12 @@ export default function BrandsForm ({ open, onOpenChange }: Props) {
           `Successfully create ${res.brand.name}`,
           'success'
         )
+        reset(createBlank())
       }
     })
   }
 
-  const handleFilesChosen = (files: File[]) => {
+  const handleFilesChosen = (files: File[]): void => {
     const toAppend = files.map((file) => ({
       url: URL.createObjectURL(file),
       name: file.name,
@@ -225,11 +226,11 @@ interface ThumbnailProps {
   remove: (index: number) => void
 }
 
-const Image = ({ image, index, remove }: ThumbnailProps) => {
+const Image = ({ image, index, remove }: ThumbnailProps): ReactNode => {
   const actions: ActionType[] = [
     {
       label: 'Delete',
-      onClick: () => { remove(index) },
+      onClick: (): void => { remove(index) },
       icon: <Trash />,
       variant: 'danger'
     }

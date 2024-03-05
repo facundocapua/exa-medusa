@@ -1,10 +1,10 @@
 import { type RouteConfig } from '@medusajs/admin'
 import { Container, Heading, Button } from '@medusajs/ui'
 import BrandsForm from '../../components/brands/brands-form'
-import { useState } from 'react'
+import { type ReactNode, useState } from 'react'
 import BrandsGrid from '../../components/brands/brands-grid'
 
-const BrandsPage = () => {
+const BrandsPage = (): ReactNode => {
   const [open, setOpen] = useState(false)
 
   return (

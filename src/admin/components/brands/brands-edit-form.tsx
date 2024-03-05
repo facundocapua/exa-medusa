@@ -1,12 +1,14 @@
-import { Button, Drawer, Heading, Input } from '@medusajs/ui'
-import { useForm, type SubmitHandler } from 'react-hook-form'
+import { Button, Drawer, Heading, Input, Switch } from '@medusajs/ui'
+import { useForm, type SubmitHandler, Controller } from 'react-hook-form'
 import { useAdminCustomPost } from 'medusa-react'
 import { type Brand } from 'src/models/brand'
 import useNotification from '../../hooks/use-notification'
+import { type ReactNode } from 'react'
 
 interface BrandForm {
   name: string
   handle: string
+  is_featured: boolean
 }
 
 type BrandRequest = BrandForm
@@ -20,8 +22,8 @@ interface Props {
   onOpenChange: (open: boolean) => void
 }
 
-export default function BrandsEditForm ({ brand, open, onOpenChange }: Props) {
-  const { register, handleSubmit, formState: { errors, isDirty }, reset } = useForm<BrandForm>({
+export default function BrandsEditForm ({ brand, open, onOpenChange }: Props): ReactNode {
+  const { register, handleSubmit, formState: { errors, isDirty }, reset, control } = useForm<BrandForm>({
     defaultValues: brand
   })
   const customPost = useAdminCustomPost<BrandRequest, BrandResponse>(
@@ -31,7 +33,6 @@ export default function BrandsEditForm ({ brand, open, onOpenChange }: Props) {
   const notification = useNotification()
 
   const onSubmit: SubmitHandler<BrandForm> = (data) => {
-    console.log(data)
     customPost.mutate(data, {
       onSuccess: (res) => {
         reset(res.brand)
@@ -72,6 +73,16 @@ export default function BrandsEditForm ({ brand, open, onOpenChange }: Props) {
                 {errors.handle && <span className="text-rose-50 py block text-small">This field is required</span>}
               </div>
 
+              <div className='flex items-center gap-1'>
+                <Controller
+                  control={control}
+                  name="is_featured"
+                  render={({ field: { value, onChange } }) => {
+                    return <Switch id='is_featured' checked={value} onCheckedChange={onChange} />
+                  }}
+                />
+                <label className="text-grey-50 font-semibold text-small" htmlFor="is_featured">Featured</label>
+              </div>
             </div>
           </Drawer.Body>
           <Drawer.Footer>

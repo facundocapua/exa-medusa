@@ -29,3 +29,15 @@ export async function POST (req: MedusaRequest, res: MedusaResponse): Promise<Me
 
   return res.status(200).json({ brand })
 }
+
+export async function DELETE (req: MedusaRequest, res: MedusaResponse): Promise<MedusaResponse> {
+  const brandRepository: typeof BrandRepository = req.scope.resolve('brandRepository')
+  const manager: EntityManager = req.scope.resolve('manager')
+  const brandRepo = manager.withRepository(brandRepository)
+  const id = req.params.id
+  const brand = await brandRepo.findOneOrFail({ where: { id } })
+
+  await brandRepo.remove(brand)
+
+  return res.status(200).json({ id })
+}

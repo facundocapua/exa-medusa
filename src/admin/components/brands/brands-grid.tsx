@@ -1,16 +1,16 @@
-import { DropdownMenu, IconButton, Table } from '@medusajs/ui'
+import { Table } from '@medusajs/ui'
 import { useAdminCustomQuery } from 'medusa-react'
 import { type Brand } from 'src/models/brand'
-import { EllipsisHorizontal, EyeSlashMini, PencilSquare, Trash } from '@medusajs/icons'
-import { useNavigate } from 'react-router-dom'
+import { type ReactNode } from 'react'
+import BrandItemActions from './brands-item-actions'
+import clsx from 'clsx'
 
 interface BrandResponse {
   brands: Brand[]
 }
 
-export default function BrandsGrid () {
+export default function BrandsGrid (): ReactNode {
   const { data, isLoading } = useAdminCustomQuery<BrandResponse>('/brands', ['brands'])
-  const navigate = useNavigate()
 
   if (isLoading) return (<div>Loading...</div>)
 
@@ -22,6 +22,8 @@ export default function BrandsGrid () {
         <Table.Row>
           <Table.HeaderCell>Name</Table.HeaderCell>
           <Table.HeaderCell>Handle</Table.HeaderCell>
+          <Table.HeaderCell>Status</Table.HeaderCell>
+          <Table.HeaderCell>Featured</Table.HeaderCell>
           <Table.HeaderCell className='w-[32px]'></Table.HeaderCell>
         </Table.Row>
       </Table.Header>
@@ -29,33 +31,32 @@ export default function BrandsGrid () {
       {
         data.brands.map((brand) => (
           <Table.Row key={brand.id}>
-            <Table.Cell>{brand.name}</Table.Cell>
+            <Table.Cell>
+              {brand.logo ? <img src={brand.logo} width="60" /> : brand.name}
+            </Table.Cell>
             <Table.Cell>{brand.handle}</Table.Cell>
+            <Table.Cell>
+              <div className='flex items-center gap-2'>
+                <div className={clsx(
+                  'h-1.5 w-1.5 self-center rounded-full',
+                  { 'bg-emerald-40': brand.is_active },
+                  { 'bg-grey-40': !brand.is_active }
+                )}></div>
+                <span className='inter-small-regular text-xs'>{brand.is_active ? 'Published' : 'Unpublished'}</span>
+              </div>
+            </Table.Cell>
+            <Table.Cell>
+              <div className='flex items-center gap-2'>
+                <div className={clsx(
+                  'h-1.5 w-1.5 self-center rounded-full',
+                  { 'bg-emerald-40': brand.is_featured },
+                  { 'bg-grey-40': !brand.is_featured }
+                )}></div>
+                <span className='inter-small-regular text-xs'>{brand.is_featured ? 'Featured' : 'Not featured'}</span>
+              </div>
+            </Table.Cell>
             <Table.Cell className='w-[32px]'>
-              <DropdownMenu>
-                <DropdownMenu.Trigger asChild>
-                  <IconButton>
-                    <EllipsisHorizontal />
-                  </IconButton>
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content className='gap-2'>
-                  <DropdownMenu.Item
-                    className='flex items-center gap-1'
-                    onClick={() => { navigate(`/a/brands/${brand.id}`) }}
-                  >
-                    <PencilSquare />
-                    Edit
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className='flex items-center gap-1'>
-                    <EyeSlashMini />
-                    Unpublish
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className='flex items-center gap-1 text-red-500'>
-                    <Trash />
-                    Delete
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu>
+              <BrandItemActions brand={brand} />
             </Table.Cell>
           </Table.Row>
         ))

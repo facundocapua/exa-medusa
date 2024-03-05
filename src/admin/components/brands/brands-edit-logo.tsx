@@ -8,6 +8,7 @@ import FileUploadField from '../ui/file-upload-field'
 import { Trash } from '@medusajs/icons'
 import Actionables, { type ActionType } from '../ui/actionables'
 import { prepareImages } from '../../utils/images'
+import { type ReactNode } from 'react'
 
 interface BrandForm {
   logo: FormImage[]
@@ -26,7 +27,7 @@ interface Props {
   onOpenChange: (open: boolean) => void
 }
 
-export default function BrandsEditLogo ({ brand, open, onOpenChange }: Props) {
+export default function BrandsEditLogo ({ brand, open, onOpenChange }: Props): ReactNode {
   const { control, handleSubmit, formState: { isDirty }, reset } = useForm<BrandForm>({
     defaultValues: {
       logo: [
@@ -99,7 +100,7 @@ export default function BrandsEditLogo ({ brand, open, onOpenChange }: Props) {
     }
   }
 
-  const handleFilesChosen = (files: File[]) => {
+  const handleFilesChosen = (files: File[]): void => {
     const toAppend = files.map((file) => ({
       url: URL.createObjectURL(file),
       name: file.name,
