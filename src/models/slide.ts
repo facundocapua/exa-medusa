@@ -20,6 +20,6 @@ export class Slide extends BaseEntity {
 
   @BeforeInsert()
   private beforeInsert (): void {
-    this.id = generateEntityId(this.id, 'banner')
+    this.id = generateEntityId(this.id, 'slide')
   }
 }
