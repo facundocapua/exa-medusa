@@ -55,6 +55,21 @@ const plugins = [
       bucketName: process.env.BUCKET_NAME,
     },
   },
+  {
+    resolve: `medusa-plugin-sendgrid`,
+    options: {
+      api_key: process.env.SENDGRID_API_KEY,
+      from: process.env.SENDGRID_FROM,
+      user_password_reset_template: process.env.SENDGRID_FORGOT_PASSWORD_ID,
+      // order_placed_template: process.env.SENDGRID_ORDER_PLACED_ID,
+      // localization: {
+      //   "de-DE": { // locale key
+      //     order_placed_template:
+      //       process.env.SENDGRID_ORDER_PLACED_ID_LOCALIZED,
+      //   },
+      // },
+    },
+  },
 ];
 
 const modules = {
