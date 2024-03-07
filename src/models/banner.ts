@@ -10,9 +10,6 @@ export class Banner extends BaseEntity {
     image: string
 
   @Column({ type: 'varchar' })
-    image_mobile: string
-
-  @Column({ type: 'varchar' })
     link: string
 
   @Column({ type: 'bool', nullable: true, default: true })
