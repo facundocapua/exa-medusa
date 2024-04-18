@@ -18,7 +18,7 @@ export async function GET (req: MedusaRequest, res: MedusaResponse): Promise<Med
         is_featured: isFeatured
       },
       order: {
-        id: 'ASC'
+        name: 'ASC'
       }
     })
   })
