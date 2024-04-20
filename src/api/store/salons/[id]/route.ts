@@ -8,7 +8,12 @@ export async function GET (req: MedusaRequest, res: MedusaResponse): Promise<Med
   const salonRepo = manager.withRepository(salonRepository)
   const id = req.params.id
   const salon = await salonRepo.findOneOrFail({
-    where: { id },
+    where: {
+      id,
+      brands: {
+        is_active: true
+      }
+    },
     relations: {
       brands: true
     }

@@ -10,7 +10,10 @@ export async function GET (req: MedusaRequest, res: MedusaResponse): Promise<Med
   return res.json({
     salons: await salonRepo.find({
       where: {
-        is_active: true
+        is_active: true,
+        brands: {
+          is_active: true
+        }
       },
       relations: {
         brands: true
