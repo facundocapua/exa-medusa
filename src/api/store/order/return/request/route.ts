@@ -8,7 +8,7 @@ export async function POST (req: MedusaRequest, res: MedusaResponse): Promise<Me
     req.scope.resolve('orderReturnRequestRepository')
   const manager: EntityManager = req.scope.resolve('manager')
   const orderReturnRequestRepo = manager.withRepository(orderRequestReturnRepository)
-  const data: DeepPartial<OrderReturnRequest> = req.body
+  const data: DeepPartial<OrderReturnRequest> = req.body as DeepPartial<OrderReturnRequest>
   const orderReturnRequest = orderReturnRequestRepo.create(data)
   await orderReturnRequestRepo.save(orderReturnRequest)
 

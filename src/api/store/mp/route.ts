@@ -4,6 +4,13 @@ import type {
 } from '@medusajs/medusa'
 import type MercadopagoService from 'src/services/mercadopago'
 
+interface MercadoPagoData {
+  type: string
+  data: {
+    id: string
+  }
+}
+
 export async function GET (
   req: MedusaRequest,
   res: MedusaResponse
@@ -17,9 +24,9 @@ export async function POST (
   req: MedusaRequest,
   res: MedusaResponse
 ): Promise<MedusaResponse> {
-  const data = req.body
+  const data = req.body as MercadoPagoData
   // console.log('[MercadoPago Hook]', data)
-  if (req.body.type === 'payment') {
+  if (data.type === 'payment') {
     const mercadoPagoProviderService: MercadopagoService = req.scope.resolve('mercadopagoService')
     const mercadoPagoPayment = await mercadoPagoProviderService.retrievePayment({
       id: data.data.id

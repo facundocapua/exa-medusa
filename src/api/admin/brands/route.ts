@@ -24,7 +24,7 @@ export async function POST (req: MedusaRequest, res: MedusaResponse): Promise<Me
     req.scope.resolve('brandRepository')
   const manager: EntityManager = req.scope.resolve('manager')
   const brandRepo = manager.withRepository(brandRepository)
-  const data: DeepPartial<Brand> = req.body
+  const data: DeepPartial<Brand> = req.body as DeepPartial<Brand>
   const brand = brandRepo.create(data)
   await brandRepo.save(brand)
 
