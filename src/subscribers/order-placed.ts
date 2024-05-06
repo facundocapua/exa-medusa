@@ -14,7 +14,6 @@ export default async function handleOrderPlaced ({
     'orderService'
   )
   const order = await orderService.retrieve(data.id)
-  console.log('[Order]', order)
 
   const salonService = container.resolve('salonService')
   const salon = await salonService.retrieveBySalesChannelId(order.sales_channel_id)
@@ -24,7 +23,6 @@ export default async function handleOrderPlaced ({
 
   const templateId = medusaSettings.order_placed_template ?? process.env.SENDGRID_ORDER_PLACED_ID
   const fromName = medusaSettings.email_from ?? process.env.SENDGRID_FROM
-  console.log('medusaSettings', medusaSettings)
 
   sendGridService.sendEmail({
     templateId,
