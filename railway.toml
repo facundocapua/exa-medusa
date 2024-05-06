@@ -1,6 +1,8 @@
 [build]
 builder = "NIXPACKS"
 
+[build.nixpacksPlan.phases.setup]
+nixPkgs = ["nodejs_18", "npm-9_x"]
 
 [build.nixpacksPlan.phases.install]
 cmds=["npm install --legacy-peer-deps"]
