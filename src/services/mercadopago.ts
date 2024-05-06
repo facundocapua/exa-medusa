@@ -7,6 +7,10 @@ class MercadopagoService extends AbstractPaymentProcessor {
   protected client_: MercadoPagoConfig
   protected options_: Record<string, string>
 
+  protected cartService_
+  protected salonService_
+  protected salesChannelService_
+
   constructor (container: Record<string, string>) {
     super(container)
 
@@ -17,15 +21,25 @@ class MercadopagoService extends AbstractPaymentProcessor {
     }
 
     this.client_ = new MercadoPagoConfig({ accessToken: this.options_.accessToken })
+    this.cartService_ = container.cartService
+    this.salonService_ = container.salonService
+    this.salesChannelService_ = container.salesChannelService
   }
 
-  createPreferenceReq (data): any {
+  async createPreferenceReq (data): Promise<any> {
     const { amount, currencyCode, email, name, surname, referenceId } = data
+
+    const cart = await this.cartService_.retrieve(referenceId)
+    const salesChannel = await this.salesChannelService_.retrieve(cart.sales_channel_id)
+
+    const settings = await this.salonService_.getMedusaSettings({ salesChannelId: cart.sales_channel_id })
+    const successUrl = settings.mercadopago_success_backurl ?? this.options_.success_backurl
+
     const body = {
       items: [
         {
           id: referenceId,
-          title: 'eXa Beauty Store',
+          title: salesChannel.name,
           quantity: 1,
           unit_price: amount,
           currency_id: currencyCode
@@ -40,7 +54,7 @@ class MercadopagoService extends AbstractPaymentProcessor {
       external_reference: referenceId, // This field will allow you to relate the payment with the cartid
       back_urls: {
         // Return the cardId in the url to get the order from the client side
-        success: `${this.options_.success_backurl}/mercadopago/${referenceId}`
+        success: `${successUrl}/mercadopago/${referenceId}`
       }
     }
 
@@ -110,7 +124,7 @@ class MercadopagoService extends AbstractPaymentProcessor {
 
   async initiatePayment (context: PaymentProcessorContext): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
     const { billing_address: billingAddress, currency_code: currencyCode, email, resource_id: referenceId } = context
-    const body = this.createPreferenceReq({
+    const body = await this.createPreferenceReq({
       referenceId,
       amount: context.amount / 100,
       currencyCode: currencyCode.toUpperCase(),
@@ -177,7 +191,7 @@ class MercadopagoService extends AbstractPaymentProcessor {
 
   async updatePayment (context: PaymentProcessorContext): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
     const { billing_address: billingAddress, currency_code: currencyCode, email, resource_id: referenceId } = context
-    const body = this.createPreferenceReq({
+    const body = await this.createPreferenceReq({
       referenceId,
       amount: context.amount / 100,
       currencyCode: currencyCode.toUpperCase(),

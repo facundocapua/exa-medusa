@@ -1,5 +1,5 @@
-import { BaseEntity, generateEntityId } from '@medusajs/medusa'
-import { BeforeInsert, Column, Entity, JoinTable, ManyToMany } from 'typeorm'
+import { BaseEntity, SalesChannel, generateEntityId } from '@medusajs/medusa'
+import { BeforeInsert, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
 import { Brand } from './brand'
 
 @Entity()
@@ -45,6 +45,16 @@ export class Salon extends BaseEntity {
 
   @Column({ type: 'bool', default: true })
     is_active: boolean
+
+  @Column('jsonb', { nullable: true, default: {} })
+    medusa_settings: string
+
+  @Column()
+    sales_channel_id?: string
+
+  @ManyToOne(() => SalesChannel)
+  @JoinColumn({ name: 'sales_channel_id' })
+    sales_channel?: SalesChannel
 
   @ManyToMany(() => Brand)
   @JoinTable({
