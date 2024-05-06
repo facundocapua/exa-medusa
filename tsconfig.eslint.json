@@ -8,6 +8,5 @@
   "include": [
     ".eslintrc.js",
     "datasource.js",
-    "medusa-config.js"
   ]
 }
