@@ -2,7 +2,7 @@
 builder = "NIXPACKS"
 
 [build.nixpacksPlan.phases.setup]
-nixPkgs = ["nodejs_20", "npm-9_x"]
+nixPkgs = ["nodejs", "npm"]
 
 [build.nixpacksPlan.phases.install]
 cmds=["npm install --legacy-peer-deps"]
