@@ -17,7 +17,7 @@ export default async function handleOrderPlaced ({
 
   const salonService = container.resolve('salonService')
   const salon = await salonService.retrieveBySalesChannelId(order.sales_channel_id)
-  const medusaSettings = salon.medusa_settings ?? {}
+  const medusaSettings = salon?.medusa_settings ?? {}
 
   const emailData = await sendGridService.orderPlacedData(data)
 
