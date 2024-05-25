@@ -30,6 +30,14 @@ export default async function handleOrderPlaced ({
     to: order.email,
     dynamic_template_data: emailData
   })
+
+  // Send copy to eXa
+  sendGridService.sendEmail({
+    templateId,
+    from: fromName,
+    to: 'info@exabeauty.com.ar',
+    dynamic_template_data: emailData
+  })
 }
 
 export const config: SubscriberConfig = {
