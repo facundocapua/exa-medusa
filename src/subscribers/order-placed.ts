@@ -24,6 +24,8 @@ export default async function handleOrderPlaced ({
   const templateId = medusaSettings.order_placed_template ?? process.env.SENDGRID_ORDER_PLACED_ID
   const fromName = medusaSettings.email_from ?? process.env.SENDGRID_FROM
 
+  console.log('[Sendgrid] Sending email with template', templateId)
+
   sendGridService.sendEmail({
     templateId,
     from: fromName,
@@ -32,6 +34,7 @@ export default async function handleOrderPlaced ({
   })
 
   // Send copy to eXa
+  console.log('[Sendgrid] Sending copy to eXa')
   sendGridService.sendEmail({
     templateId,
     from: fromName,
