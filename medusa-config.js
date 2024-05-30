@@ -82,7 +82,7 @@ const projectConfig = {
   admin_cors: ADMIN_CORS,
   // Uncomment the following lines to enable REDIS
   redis_url: REDIS_URL,
-  worker_mode: process.env.MEDUSA_WORKER_MODE || 'server',
+  // worker_mode: process.env.MEDUSA_WORKER_MODE || 'server',
 }
 
 const featureFlags = {
