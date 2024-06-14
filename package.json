@@ -33,7 +33,7 @@
     "@medusajs/event-bus-redis": "1.8.13",
     "@medusajs/file-local": "1.0.3",
     "@medusajs/icons": "^1.2.1",
-    "@medusajs/medusa": "1.20.6",
+    "@medusajs/medusa": "1.20.7",
     "@medusajs/ui": "3.0.0",
     "@tanstack/react-query": "4.22.0",
     "aws-sdk": "2.1628.0",
