@@ -35,12 +35,24 @@ export default async function handleOrderPlaced ({
 
   // Send copy to eXa
   console.log('[Sendgrid] Sending copy to eXa')
-  sendGridService.sendEmail({
-    templateId,
-    from: fromName,
-    to: 'info@exabeauty.com.ar',
-    dynamic_template_data: emailData
-  })
+  if (process.env.NODE_ENV !== 'development') {
+    sendGridService.sendEmail({
+      templateId,
+      from: fromName,
+      to: 'info@exabeauty.com.ar',
+      dynamic_template_data: emailData
+    })
+
+    if (salon?.email) {
+      console.log('[Sendgrid] Sending copy to Salon')
+      sendGridService.sendEmail({
+        templateId,
+        from: fromName,
+        to: salon.email,
+        dynamic_template_data: emailData
+      })
+    }
+  }
 }
 
 export const config: SubscriberConfig = {

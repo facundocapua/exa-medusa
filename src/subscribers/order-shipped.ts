@@ -48,6 +48,16 @@ export default async function handleOrderShipped ({
     to: order.email,
     dynamic_template_data: emailData
   })
+
+  console.log('[Sendgrid] Sending copy to eXa')
+  if (process.env.NODE_ENV !== 'development') {
+    sendGridService.sendEmail({
+      templateId,
+      from: fromName,
+      to: 'info@exabeauty.com.ar',
+      dynamic_template_data: emailData
+    })
+  }
 }
 
 export const config: SubscriberConfig = {
