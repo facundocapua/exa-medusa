@@ -3,25 +3,27 @@ import { DropdownMenu, IconButton, Prompt, useToggleState } from '@medusajs/ui'
 import { useAdminCustomDelete, useAdminCustomPost } from 'medusa-react'
 import { type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
-import useNotification from '../../hooks/use-notification'
-import { type Brand } from '../../../models/brand'
+import { type Salon } from '../../../models/salon'
+import { type RouteProps } from '@medusajs/admin'
 
-export default function BrandItemActions ({ brand }: { brand: Brand }): ReactNode {
+type Props = RouteProps & {
+  salon: Salon
+}
+
+export default function SalonItemActions ({ salon, notify }: Props): ReactNode {
   const [state, open, close] = useToggleState()
   const navigate = useNavigate()
-  const notification = useNotification()
-  const brandPost = useAdminCustomPost<Partial<Brand>, { brand: Brand }>(
-    `/brands/${brand.id}`,
-    ['brands']
+  const salonPost = useAdminCustomPost<Partial<Salon>, { salon: Salon }>(
+    `/salons/${salon.id}`,
+    ['salons']
   )
-  const brandDelete = useAdminCustomDelete(`/brands/${brand.id}`, ['brands'])
+  const salonDelete = useAdminCustomDelete(`/salons/${salon.id}`, ['salons'])
   const handleChangeStatus = (status: boolean): void => {
-    brandPost.mutate({ is_active: status }, {
+    salonPost.mutate({ is_active: status }, {
       onSuccess: (res) => {
-        notification(
-          status ? 'Brand published' : 'Brand unpublished',
-          `Successfully ${status ? 'published' : 'unpublished'} ${res.brand.name}`,
-          'success'
+        notify.success(
+          status ? 'Salon published' : 'Salon unpublished',
+          `Successfully ${status ? 'published' : 'unpublished'} ${res.salon.name}`
         )
       }
     })
@@ -29,9 +31,9 @@ export default function BrandItemActions ({ brand }: { brand: Brand }): ReactNod
 
   const handleDelete = (): void => {
     close()
-    brandDelete.mutate(undefined, {
+    salonDelete.mutate(undefined, {
       onSuccess: () => {
-        notification('Brand deleted', `Successfully deleted ${brand.name}`, 'success')
+        notify.success('Salon deleted', `Successfully deleted ${salon.name}`)
       }
     })
   }
@@ -47,17 +49,17 @@ export default function BrandItemActions ({ brand }: { brand: Brand }): ReactNod
         <DropdownMenu.Content className='gap-2'>
           <DropdownMenu.Item
             className='flex items-center gap-1'
-            onClick={() => { navigate(`/a/brands/${brand.id}`) }}
+            onClick={() => { navigate(`/a/salons/${salon.id}`) }}
           >
             <PencilSquare />
             Edit
           </DropdownMenu.Item>
           <DropdownMenu.Item
             className='flex items-center gap-1'
-            onClick={() => { handleChangeStatus(!brand.is_active) }}
+            onClick={() => { handleChangeStatus(!salon.is_active) }}
           >
             <EyeSlashMini />
-            {brand.is_active ? 'Unpublish' : 'Publish'}
+            {salon.is_active ? 'Unpublish' : 'Publish'}
           </DropdownMenu.Item>
           <DropdownMenu.Item
             className='flex items-center gap-1 text-red-500'
@@ -71,7 +73,7 @@ export default function BrandItemActions ({ brand }: { brand: Brand }): ReactNod
       <Prompt open={state}>
         <Prompt.Content>
           <Prompt.Header>
-            <Prompt.Title>Delete brand</Prompt.Title>
+            <Prompt.Title>Delete salon</Prompt.Title>
             <Prompt.Description>Are you sure?</Prompt.Description>
           </Prompt.Header>
           <Prompt.Footer>

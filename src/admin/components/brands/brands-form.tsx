@@ -8,7 +8,7 @@ import { Trash } from '@medusajs/icons'
 import { type FormImage } from '../../types/images'
 import { prepareImages } from '../../utils/images'
 import useNotification from '../../hooks/use-notification'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 interface NewBrandForm {
   name: string

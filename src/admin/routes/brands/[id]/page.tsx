@@ -11,7 +11,7 @@ import BrandsEditLogo from '../../../components/brands/brands-edit-logo'
 import clsx from 'clsx'
 import StatusSelector from '../../../components/shared/status-selector'
 import useNotification from '../../../hooks/use-notification'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 interface BrandResponse {
   brand: Brand

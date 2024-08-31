@@ -1,6 +1,6 @@
-import { AdminPostProductsReq, Region } from "@medusajs/medusa"
+import { type AdminPostProductsReq, type Region } from '@medusajs/medusa'
 
-type SampleProductsOptions = {
+interface SampleProductsOptions {
   regions: Region[]
   collection_id?: string
 }
@@ -8,7 +8,7 @@ type SampleProductsOptions = {
 // can't use the ProductStatus imported
 // from the core within admin cusotmizations
 enum ProductStatus {
-  PUBLISHED = "published"
+  PUBLISHED = 'published'
 }
 
 export default function getSampleProducts ({
@@ -17,32 +17,32 @@ export default function getSampleProducts ({
 }: SampleProductsOptions): AdminPostProductsReq[] {
   return [
     {
-      title: "Medusa T-Shirt",
+      title: 'Medusa T-Shirt',
       status: ProductStatus.PUBLISHED,
       collection_id,
       discountable: true,
       subtitle: null,
-      description: "Reimagine the feeling of a classic T-shirt. With our cotton T-shirts, everyday essentials no longer have to be ordinary.",
-      handle: "medusa-t-shirt",
+      description: 'Reimagine the feeling of a classic T-shirt. With our cotton T-shirts, everyday essentials no longer have to be ordinary.',
+      handle: 'medusa-t-shirt',
       is_giftcard: false,
       weight: 400,
       images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-back.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-back.png"
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-front.png',
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-back.png',
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-front.png',
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-back.png'
       ],
       options: [
         {
-          title: "Size",
+          title: 'Size'
         },
         {
-          title: "Color",
+          title: 'Color'
         }
       ],
       variants: [
         {
-          title: "S / Black",
+          title: 'S / Black',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -51,17 +51,17 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "S"
+              value: 'S'
             },
             {
-              value: "Black"
+              value: 'Black'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "S / White",
+          title: 'S / White',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -70,17 +70,17 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "S"
+              value: 'S'
             },
             {
-              value: "White"
+              value: 'White'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "M / Black",
+          title: 'M / Black',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -89,17 +89,17 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "M"
+              value: 'M'
             },
             {
-              value: "Black"
+              value: 'Black'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "M / White",
+          title: 'M / White',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -108,17 +108,17 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "M"
+              value: 'M'
             },
             {
-              value: "White"
+              value: 'White'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "L / Black",
+          title: 'L / Black',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -127,17 +127,17 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "L"
+              value: 'L'
             },
             {
-              value: "Black"
+              value: 'Black'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "L / White",
+          title: 'L / White',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -146,17 +146,17 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "L"
+              value: 'L'
             },
             {
-              value: "White"
+              value: 'White'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "XL / Black",
+          title: 'XL / Black',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -165,17 +165,17 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "XL"
+              value: 'XL'
             },
             {
-              value: "Black"
+              value: 'Black'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "XL / White",
+          title: 'XL / White',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -184,10 +184,10 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "XL"
+              value: 'XL'
             },
             {
-              value: "White"
+              value: 'White'
             }
           ],
           inventory_quantity: 100,
@@ -196,27 +196,27 @@ export default function getSampleProducts ({
       ]
     },
     {
-      title: "Medusa Sweatshirt",
+      title: 'Medusa Sweatshirt',
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
       subtitle: null,
-      description: "Reimagine the feeling of a classic sweatshirt. With our cotton sweatshirt, everyday essentials no longer have to be ordinary.",
-      handle: "sweatshirt",
+      description: 'Reimagine the feeling of a classic sweatshirt. With our cotton sweatshirt, everyday essentials no longer have to be ordinary.',
+      handle: 'sweatshirt',
       is_giftcard: false,
       weight: 400,
       images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-back.png"
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-front.png',
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-back.png'
       ],
       options: [
         {
-          title: "Size",
+          title: 'Size'
         }
       ],
       variants: [
         {
-          title: "S",
+          title: 'S',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -225,14 +225,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "S"
+              value: 'S'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "M",
+          title: 'M',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -241,14 +241,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "M"
+              value: 'M'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "L",
+          title: 'L',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -257,14 +257,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "L"
+              value: 'L'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "XL",
+          title: 'XL',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -273,7 +273,7 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "XL"
+              value: 'XL'
             }
           ],
           inventory_quantity: 100,
@@ -282,27 +282,27 @@ export default function getSampleProducts ({
       ]
     },
     {
-      title: "Medusa Sweatpants",
+      title: 'Medusa Sweatpants',
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
       subtitle: null,
-      description: "Reimagine the feeling of classic sweatpants. With our cotton sweatpants, everyday essentials no longer have to be ordinary.",
-      handle: "sweatpants",
+      description: 'Reimagine the feeling of classic sweatpants. With our cotton sweatpants, everyday essentials no longer have to be ordinary.',
+      handle: 'sweatpants',
       is_giftcard: false,
       weight: 400,
       images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-back.png"
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-front.png',
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-back.png'
       ],
       options: [
         {
-          title: "Size",
+          title: 'Size'
         }
       ],
       variants: [
         {
-          title: "S",
+          title: 'S',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -311,14 +311,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "S"
+              value: 'S'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "M",
+          title: 'M',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -327,14 +327,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "M"
+              value: 'M'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "L",
+          title: 'L',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -343,14 +343,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "L"
+              value: 'L'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "XL",
+          title: 'XL',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -359,7 +359,7 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "XL"
+              value: 'XL'
             }
           ],
           inventory_quantity: 100,
@@ -368,27 +368,27 @@ export default function getSampleProducts ({
       ]
     },
     {
-      title: "Medusa Shorts",
+      title: 'Medusa Shorts',
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
       subtitle: null,
-      description: "Reimagine the feeling of classic shorts. With our cotton shorts, everyday essentials no longer have to be ordinary.",
-      handle: "shorts",
+      description: 'Reimagine the feeling of classic shorts. With our cotton shorts, everyday essentials no longer have to be ordinary.',
+      handle: 'shorts',
       is_giftcard: false,
       weight: 400,
       images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-back.png"
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-front.png',
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-back.png'
       ],
       options: [
         {
-          title: "Size",
+          title: 'Size'
         }
       ],
       variants: [
         {
-          title: "S",
+          title: 'S',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -397,14 +397,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "S"
+              value: 'S'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "M",
+          title: 'M',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -413,14 +413,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "M"
+              value: 'M'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "L",
+          title: 'L',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -429,14 +429,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "L"
+              value: 'L'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "XL",
+          title: 'XL',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -445,7 +445,7 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "XL"
+              value: 'XL'
             }
           ],
           inventory_quantity: 100,
@@ -454,27 +454,27 @@ export default function getSampleProducts ({
       ]
     },
     {
-      title: "Medusa Hoodie",
+      title: 'Medusa Hoodie',
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
       subtitle: null,
-      description: "Reimagine the feeling of a classic hoodie. With our cotton hoodie, everyday essentials no longer have to be ordinary.",
-      handle: "hoodie",
+      description: 'Reimagine the feeling of a classic hoodie. With our cotton hoodie, everyday essentials no longer have to be ordinary.',
+      handle: 'hoodie',
       is_giftcard: false,
       weight: 400,
       images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/black_hoodie_front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/black_hoodie_back.png"
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/black_hoodie_front.png',
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/black_hoodie_back.png'
       ],
       options: [
         {
-          title: "Size",
+          title: 'Size'
         }
       ],
       variants: [
         {
-          title: "S",
+          title: 'S',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -483,14 +483,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "S"
+              value: 'S'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "M",
+          title: 'M',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -499,14 +499,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "M"
+              value: 'M'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "L",
+          title: 'L',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -515,14 +515,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "L"
+              value: 'L'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "XL",
+          title: 'XL',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -531,7 +531,7 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "XL"
+              value: 'XL'
             }
           ],
           inventory_quantity: 100,
@@ -540,27 +540,27 @@ export default function getSampleProducts ({
       ]
     },
     {
-      title: "Medusa Longsleeve",
+      title: 'Medusa Longsleeve',
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
       subtitle: null,
-      description: "Reimagine the feeling of a classic longsleeve. With our cotton longsleeve, everyday essentials no longer have to be ordinary.",
-      handle: "longsleeve",
+      description: 'Reimagine the feeling of a classic longsleeve. With our cotton longsleeve, everyday essentials no longer have to be ordinary.',
+      handle: 'longsleeve',
       is_giftcard: false,
       weight: 400,
       images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/ls-black-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/ls-black-back.png"
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/ls-black-front.png',
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/ls-black-back.png'
       ],
       options: [
         {
-          title: "Size",
+          title: 'Size'
         }
       ],
       variants: [
         {
-          title: "S",
+          title: 'S',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -569,14 +569,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "S"
+              value: 'S'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "M",
+          title: 'M',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -585,14 +585,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "M"
+              value: 'M'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "L",
+          title: 'L',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -601,14 +601,14 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "L"
+              value: 'L'
             }
           ],
           inventory_quantity: 100,
           manage_inventory: true
         },
         {
-          title: "XL",
+          title: 'XL',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -617,7 +617,7 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "XL"
+              value: 'XL'
             }
           ],
           inventory_quantity: 100,
@@ -626,26 +626,26 @@ export default function getSampleProducts ({
       ]
     },
     {
-      title: "Medusa Coffee Mug",
+      title: 'Medusa Coffee Mug',
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
       subtitle: null,
       description: "Every programmer's best friend.",
-      handle: "coffee-mug",
+      handle: 'coffee-mug',
       is_giftcard: false,
       weight: 400,
       images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/coffee-mug.png"
+        'https://medusa-public-images.s3.eu-west-1.amazonaws.com/coffee-mug.png'
       ],
       options: [
         {
-          title: "Size",
+          title: 'Size'
         }
       ],
       variants: [
         {
-          title: "One Size",
+          title: 'One Size',
           prices: regions.map((region) => {
             return {
               currency_code: region.currency_code,
@@ -654,7 +654,7 @@ export default function getSampleProducts ({
           }),
           options: [
             {
-              value: "One Size"
+              value: 'One Size'
             }
           ],
           inventory_quantity: 100,
