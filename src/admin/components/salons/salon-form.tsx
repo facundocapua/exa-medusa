@@ -48,26 +48,20 @@ export default function SalonForm ({ title, register, errors, control }: Props):
           </div>
 
           <div>
-            <label className="text-grey-50 font-semibold text-small">Website <small className="text-rose-50">*</small></label>
-            <Input {...register('website', {
-              required: true
-            })} />
+            <label className="text-grey-50 font-semibold text-small">Website</label>
+            <Input {...register('website')} />
             {errors.website && <span className="text-rose-50 py block text-small">This field is required</span>}
           </div>
 
           <div>
-            <label className="text-grey-50 font-semibold text-small">Phone <small className="text-rose-50">*</small></label>
-            <Input {...register('phone', {
-              required: true
-            })} />
+            <label className="text-grey-50 font-semibold text-small">Phone</label>
+            <Input {...register('phone')} />
             {errors.phone && <span className="text-rose-50 py block text-small">This field is required</span>}
           </div>
 
           <div>
-            <label className="text-grey-50 font-semibold text-small">Email <small className="text-rose-50">*</small></label>
-            <Input {...register('email', {
-              required: true
-            })} />
+            <label className="text-grey-50 font-semibold text-small">Email</label>
+            <Input {...register('email')} />
             {errors.email && <span className="text-rose-50 py block text-small">This field is required</span>}
           </div>
         </div>
@@ -75,7 +69,7 @@ export default function SalonForm ({ title, register, errors, control }: Props):
         <hr />
         <div className="grid grid-cols-2 gap-4 w-full my-4">
           <div>
-            <label className="text-grey-50 font-semibold text-small">Latitude <small className="text-rose-50">*</small></label>
+            <label className="text-grey-50 font-semibold text-small">Latitude</label>
             <Input {...register('lat', {
               required: true
             })} />
@@ -91,18 +85,14 @@ export default function SalonForm ({ title, register, errors, control }: Props):
           </div>
 
           <div>
-            <label className="text-grey-50 font-semibold text-small">Map <small className="text-rose-50">*</small></label>
-            <Input {...register('map', {
-              required: true
-            })} />
+            <label className="text-grey-50 font-semibold text-small">Map</label>
+            <Input {...register('map')} />
             {errors.map && <span className="text-rose-50 py block text-small">This field is required</span>}
           </div>
 
           <div>
-            <label className="text-grey-50 font-semibold text-small">Map link <small className="text-rose-50">*</small></label>
-            <Input {...register('map_link', {
-              required: true
-            })} />
+            <label className="text-grey-50 font-semibold text-small">Map link</label>
+            <Input {...register('map_link')} />
             {errors.map_link && <span className="text-rose-50 py block text-small">This field is required</span>}
           </div>
 

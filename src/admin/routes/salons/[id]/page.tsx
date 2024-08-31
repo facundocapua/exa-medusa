@@ -38,7 +38,7 @@ const printMedusaSettings = (settings: Record<string, string>): ReactNode => {
     <div key={data[0]} className='flex flex-col'>
       {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument */}
       <p className='text-neutral-800'>{capitalize((data[0]).replaceAll('_', ' '))}</p>
-      <p className='text-grey-50'>{data[1]}</p>
+      <p className='text-grey-50'>{data[1] ?? 'N/A'}</p>
     </div>
   )))
 }
@@ -121,22 +121,26 @@ const SalonsEditPage = (): ReactNode => {
             <Heading level="h2">Details</Heading>
             <div className='flex items-center justify-between text-grey-50'>
               <p>Website</p>
-              {salon.website && (<a href={salon.website} target='_blank' rel="noreferrer">{salon.website}</a>)}
+              {salon.website ? (<a href={salon.website} target='_blank' rel="noreferrer">{salon.website}</a>) : 'N/A'}
             </div>
             <div className='flex items-center justify-between text-grey-50'>
               <p>Phone</p>
-              <p>{salon.phone}</p>
+              <p>{salon.phone ?? 'N/A'}</p>
             </div>
             <div className='flex items-center justify-between text-grey-50'>
               <p>Email</p>
-              <p>{salon.email}</p>
+              <p>{salon.email ?? 'N/A'}</p>
             </div>
-            {Object.entries(salon.social_networks as SocialNetworks).map((data) => (
-              <div key={data[0]} className='flex items-center justify-between text-grey-50'>
-                <p>{capitalize(data[0])}</p>
-                <a href={data[1]} target='_blank' rel='noreferrer'>{data[1]}</a>
-              </div>
-            ))}
+            {salon.social_networks && (
+              <>
+                {Object.entries(salon.social_networks as SocialNetworks).map((data) => (
+                <div key={data[0]} className='flex items-center justify-between text-grey-50'>
+                  <p>{capitalize(data[0])}</p>
+                  {data[1] ? (<a href={data[1]} target='_blank' rel='noreferrer'>{data[1]}</a>) : 'N/A'}
+                </div>
+                ))}
+              </>
+            )}
 
             <hr />
 
@@ -161,20 +165,28 @@ const SalonsEditPage = (): ReactNode => {
             <SectionTitle>Hours</SectionTitle>
           </header>
           <div className="grid grid-cols-1 gap-4 mt-4">
-            {printHours('Monday', salon.hours.mon as Hour)}
-            {printHours('Tuesday', salon.hours.tue as Hour)}
-            {printHours('Wednesday', salon.hours.wed as Hour)}
-            {printHours('Thursday', salon.hours.thu as Hour)}
-            {printHours('Friday', salon.hours.fri as Hour)}
-            {printHours('Saturday', salon.hours.sat as Hour)}
-            {printHours('Sunday', salon.hours.sun as Hour)}
+            {salon.hours
+              ? (
+              <>
+                {printHours('Monday', salon.hours.mon as Hour)}
+                {printHours('Tuesday', salon.hours.tue as Hour)}
+                {printHours('Wednesday', salon.hours.wed as Hour)}
+                {printHours('Thursday', salon.hours.thu as Hour)}
+                {printHours('Friday', salon.hours.fri as Hour)}
+                {printHours('Saturday', salon.hours.sat as Hour)}
+                {printHours('Sunday', salon.hours.sun as Hour)}
+              </>
+                )
+              : 'N/A'
+            }
+
           </div>
           <hr className='my-4' />
           <header className="flex justify-between items-center">
             <SectionTitle>Settings</SectionTitle>
           </header>
           <div className="grid grid-cols-1 gap-4 mt-4">
-            {printMedusaSettings(salon.medusa_settings as Record<string, string>)}
+            {salon.medusa_settings && printMedusaSettings(salon.medusa_settings as Record<string, string>)}
             <div className='flex flex-col'>
               <p className='text-neutral-800'>Sales Channel Id</p>
               <p className='text-grey-50'>{salon.sales_channel_id ?? 'N/A'}</p>
