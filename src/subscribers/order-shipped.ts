@@ -25,6 +25,11 @@ export default async function handleOrderShipped ({
       fulfillment_id: data.fulfillment_id
     }
   })
+  if (!tracking) {
+    console.log('[Order Shipment Created] No tracking found')
+    return
+  }
+
   console.log('[Order Shipment Created] Tracking', tracking)
 
   const salonService = container.resolve('salonService')
