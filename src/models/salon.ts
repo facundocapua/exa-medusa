@@ -64,6 +64,13 @@ export class Salon extends BaseEntity {
   })
     brands: Brand[]
 
+  @Column()
+    featured_brand_id?: string
+
+  @ManyToOne(() => Brand)
+  @JoinColumn({ name: 'featured_brand_id' })
+    featured_brand?: Brand
+
   @BeforeInsert()
   private beforeInsert (): void {
     this.id = generateEntityId(this.id, 'salon')

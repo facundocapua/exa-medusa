@@ -1,5 +1,6 @@
 import { BaseEntity, generateEntityId } from '@medusajs/medusa'
-import { BeforeInsert, Column, Entity } from 'typeorm'
+import { BeforeInsert, Column, Entity, ManyToOne, JoinColumn } from 'typeorm'
+import { Salon } from './salon'
 
 @Entity()
 export class Banner extends BaseEntity {
@@ -14,6 +15,13 @@ export class Banner extends BaseEntity {
 
   @Column({ type: 'bool', nullable: true, default: true })
     is_active: boolean
+
+  @Column({ type: 'varchar', nullable: true })
+    salon_id?: string
+
+  @ManyToOne(() => Salon)
+  @JoinColumn({ name: 'salon_id' })
+    salon?: Salon
 
   @BeforeInsert()
   private beforeInsert (): void {

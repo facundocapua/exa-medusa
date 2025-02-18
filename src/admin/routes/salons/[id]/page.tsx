@@ -192,6 +192,17 @@ const SalonsEditPage = (): ReactNode => {
               <p className='text-grey-50'>{salon.sales_channel_id ?? 'N/A'}</p>
             </div>
           </div>
+
+          <hr className='my-4' />
+          <header className="flex justify-between items-center">
+            <SectionTitle>Additional Settings</SectionTitle>
+          </header>
+          <div className="grid grid-cols-1 gap-4 mt-4">
+          <div className='flex flex-col'>
+              <p className='text-neutral-800'>Featured Brand</p>
+              <p className='text-grey-50'>{salon.featured_brand_id ?? 'N/A'}</p>
+            </div>
+          </div>
         </Container>
       </div>
     </>

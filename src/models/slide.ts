@@ -1,5 +1,6 @@
 import { BaseEntity, generateEntityId } from '@medusajs/medusa'
-import { BeforeInsert, Column, Entity } from 'typeorm'
+import { BeforeInsert, Column, Entity, ManyToOne, JoinColumn } from 'typeorm'
+import { Salon } from './salon'
 
 @Entity()
 export class Slide extends BaseEntity {
@@ -20,6 +21,13 @@ export class Slide extends BaseEntity {
 
   @Column({ type: 'integer' })
     rank: boolean
+
+  @Column({ type: 'varchar', nullable: true })
+    salon_id?: string
+
+  @ManyToOne(() => Salon)
+  @JoinColumn({ name: 'salon_id' })
+    salon?: Salon
 
   @BeforeInsert()
   private beforeInsert (): void {

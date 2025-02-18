@@ -14,6 +14,7 @@ interface NewBrandForm {
   name: string
   handle: string
   logo: FormImage[]
+  featured_banner: FormImage[]
   is_featured: boolean
   is_active?: boolean
 }
@@ -24,6 +25,7 @@ export interface BrandRequest {
   is_featured: boolean
   is_active?: boolean
   logo?: string
+  featured_banner?: string
 
 }
 interface BrandResponse {
@@ -40,6 +42,7 @@ const createBlank = (): NewBrandForm => {
     name: '',
     handle: '',
     logo: [],
+    featured_banner: [],
     is_featured: true
   }
 }
@@ -59,6 +62,11 @@ export default function BrandsForm ({ open, onOpenChange }: Props): ReactNode {
   const { fields, remove, replace, append } = useFieldArray({
     control,
     name: 'logo'
+  })
+
+  const { fields: fieldsBanner, remove: removeBanner, replace: replaceBanner, append: appendBanner } = useFieldArray({
+    control,
+    name: 'featured_banner'
   })
 
   const onSubmit: SubmitHandler<NewBrandForm> = async (data) => {
@@ -96,6 +104,36 @@ export default function BrandsForm ({ open, onOpenChange }: Props): ReactNode {
 
       payload.logo = urls[0]
     }
+
+    if (data.featured_banner?.length) {
+      let preppedImages: FormImage[] = []
+
+      try {
+        preppedImages = await prepareImages(data.featured_banner, uploadFile)
+      } catch (error) {
+        let errorMessage = 'Something went wrong while trying to upload the thumbnail.'
+        const response = (error).response as Response
+
+        if (response.status === 500) {
+          errorMessage =
+            errorMessage +
+            ' ' +
+            'You might not have a file service configured. Please contact your administrator'
+        }
+
+        // notification(t('new-error', 'Error'), errorMessage, 'error')
+        notification(
+          'Brand creation error',
+          errorMessage,
+          'error'
+        )
+        return
+      }
+      const urls = preppedImages.map((image) => image.url)
+
+      payload.featured_banner = urls[0]
+    }
+
     customPost.mutate(payload, {
       onSuccess: (res) => {
         console.log(res)
@@ -123,6 +161,22 @@ export default function BrandsForm ({ open, onOpenChange }: Props): ReactNode {
       replace(toAppend)
     } else {
       append(toAppend)
+    }
+  }
+
+  const handleFilesChosenBanner = (files: File[]): void => {
+    const toAppend = files.map((file) => ({
+      url: URL.createObjectURL(file),
+      name: file.name,
+      size: file.size,
+      nativeFile: file,
+      selected: false
+    }))
+
+    if (files.length) {
+      replaceBanner(toAppend)
+    } else {
+      appendBanner(toAppend)
     }
   }
 
@@ -206,6 +260,36 @@ export default function BrandsForm ({ open, onOpenChange }: Props): ReactNode {
                           image={field}
                           index={index}
                           remove={remove}
+                        />
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className='mt-12'>
+              <Heading level="h2">Featured Banner</Heading>
+              <hr />
+              <div className="mt-large">
+                <FileUploadField
+                  onFileChosen={handleFilesChosenBanner}
+                  placeholder="1200 x 1600 (3:4) recommended, up to 10MB each"
+                  filetypes={['image/gif', 'image/jpeg', 'image/png', 'image/webp']}
+                  className="py-large"
+                />
+              </div>
+              {fields.length > 0 && (
+                <div className="mt-large">
+                  <h2 className="inter-large-semibold mb-small">Upload</h2>
+
+                  <div className="gap-y-2xsmall flex flex-col">
+                    {fieldsBanner.map((field, index) => {
+                      return (
+                        <Image
+                          key={field.id}
+                          image={field}
+                          index={index}
+                          remove={removeBanner}
                         />
                       )
                     })}

@@ -20,6 +20,9 @@ export default async function handleOrderPlaced ({
   const medusaSettings = salon?.medusa_settings ?? {}
 
   const emailData = await sendGridService.orderPlacedData(data)
+  emailData.is_banktransfer = emailData.payments[0].provider_id === 'banktransfer'
+
+  console.log('[Order Placed] Email data', emailData)
 
   const templateId = medusaSettings.order_placed_template ?? process.env.SENDGRID_ORDER_PLACED_ID
   const fromName = medusaSettings.email_from ?? process.env.SENDGRID_FROM
@@ -34,8 +37,8 @@ export default async function handleOrderPlaced ({
   })
 
   // Send copy to eXa
-  console.log('[Sendgrid] Sending copy to eXa')
   if (process.env.NODE_ENV !== 'development') {
+    console.log('[Sendgrid] Sending copy to eXa')
     sendGridService.sendEmail({
       templateId,
       from: fromName,
@@ -44,7 +47,6 @@ export default async function handleOrderPlaced ({
     })
 
     if (salon?.email) {
-      console.log('[Sendgrid] Sending copy to Salon')
       sendGridService.sendEmail({
         templateId,
         from: fromName,

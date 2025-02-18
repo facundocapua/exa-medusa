@@ -15,7 +15,8 @@ export async function GET (req: MedusaRequest, res: MedusaResponse): Promise<Med
       }
     },
     relations: {
-      brands: true
+      brands: true,
+      featured_brand: true
     }
   })
   return res.json({

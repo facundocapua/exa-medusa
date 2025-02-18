@@ -12,6 +12,9 @@ export class Brand extends BaseEntity {
   @Column({ type: 'varchar', nullable: true })
     logo: string
 
+  @Column({ type: 'varchar', nullable: true })
+    featured_banner: string
+
   @Column({ type: 'bool', nullable: true, default: false })
     is_featured: boolean
 

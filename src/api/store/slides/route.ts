@@ -7,10 +7,13 @@ export async function GET (req: MedusaRequest, res: MedusaResponse): Promise<Med
   const manager: EntityManager = req.scope.resolve('manager')
   const slideRepo = manager.withRepository(slideRepository)
 
+  const salonId = req.query.salon_id as string ?? undefined
+
   return res.json({
     slides: await slideRepo.find({
       where: {
-        is_active: true
+        is_active: true,
+        salon_id: salonId
       },
       order: {
         rank: 'ASC'

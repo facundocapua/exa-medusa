@@ -12,6 +12,7 @@ import clsx from 'clsx'
 import StatusSelector from '../../../components/shared/status-selector'
 import useNotification from '../../../hooks/use-notification'
 import { type ReactNode } from 'react'
+import BrandsEditFeaturedBanner from '../../../components/brands/brands-edit-featured-banner'
 
 interface BrandResponse {
   brand: Brand
@@ -20,6 +21,7 @@ interface BrandResponse {
 const BrandsEditPage = (): ReactNode => {
   const [state, open, close] = useToggleState()
   const [stateLogoEdit, openLogoEdit, closeLogoEdit] = useToggleState()
+  const [stateBannerEdit, openBannerEdit, closeBannerEdit] = useToggleState()
   const { id } = useParams()
   const { data, isLoading } = useAdminCustomQuery<BrandResponse>(`/brands/${id}`, ['brand'])
 
@@ -61,6 +63,11 @@ const BrandsEditPage = (): ReactNode => {
       <BrandsEditLogo brand={brand} open={stateLogoEdit} onOpenChange={(modalOpened) => {
         if (!modalOpened) {
           closeLogoEdit()
+        }
+      }} />
+      <BrandsEditFeaturedBanner brand={brand} open={stateBannerEdit} onOpenChange={(modalOpened) => {
+        if (!modalOpened) {
+          closeBannerEdit()
         }
       }} />
       <BackButton url='/a/brands'>Back to brands</BackButton>
@@ -128,6 +135,32 @@ const BrandsEditPage = (): ReactNode => {
                 <img
                   src={brand.logo}
                   alt={`Thumbnail for ${brand.name}`}
+                  className="rounded-rounded max-h-full max-w-full object-contain"
+                />
+              </div>
+            )}
+          </div>
+        </Container>
+        <div className='col-span-2'></div>
+        <Container>
+          <header className="flex justify-between items-center">
+            <SectionTitle>Featured Banner</SectionTitle>
+            <div>
+              <IconButton variant='transparent'>
+                <PencilSquare onClick={openBannerEdit} />
+              </IconButton>
+            </div>
+          </header>
+          <div
+            className={clsx('gap-xsmall mt-base grid grid-cols-3', {
+              hidden: !brand.featured_banner
+            })}
+          >
+            {brand.featured_banner && (
+              <div className="flex aspect-square items-center justify-center">
+                <img
+                  src={brand.featured_banner}
+                  alt={`Banner for ${brand.name}`}
                   className="rounded-rounded max-h-full max-w-full object-contain"
                 />
               </div>

@@ -1,8 +1,9 @@
 import { Heading, Input, Select } from '@medusajs/ui'
 import { type UseFormRegister, type FieldPath, Controller } from 'react-hook-form'
-import { useAdminSalesChannels } from 'medusa-react'
+import { useAdminCustomQuery, useAdminSalesChannels } from 'medusa-react'
 import { type ReactNode } from 'react'
 import { type SalonFormType } from './types'
+import { type Brand } from 'src/models/brand'
 
 interface DayInputsProps {
   label: string
@@ -33,6 +34,8 @@ interface Props {
 
 export default function SalonForm ({ title, register, errors, control }: Props): ReactNode {
   const { sales_channels: salesChannels, isLoading } = useAdminSalesChannels()
+  const { data: brandsData } = useAdminCustomQuery<{ brands: Brand[] }>('/brands', ['brands'])
+  const { brands } = brandsData || {}
 
   return (
     <section className='grid grid-cols-2 gap-8'>
@@ -211,6 +214,36 @@ export default function SalonForm ({ title, register, errors, control }: Props):
           <DayInputs label='Friday' register={register} openInput='hours.fri.open' closeInput='hours.fri.close' />
           <DayInputs label='Saturday' register={register} openInput='hours.sat.open' closeInput='hours.sat.close' />
           <DayInputs label='Sunday' register={register} openInput='hours.sun.open' closeInput='hours.sun.close' />
+        </div>
+
+        <Heading level="h2" className='mt-8'>Additional Settings</Heading>
+        <hr />
+        <div>
+          <label className="text-grey-50 font-semibold text-small">Featured Brand</label>
+          {!isLoading && (
+            <Controller
+                control={control}
+                name="featured_brand_id"
+                render={({ field }) => {
+                  return (
+                    <Select onValueChange={field.onChange} {...field}>
+                      <Select.Trigger>
+                        <Select.Value placeholder="Select a featured brand" />
+                      </Select.Trigger>
+                      <Select.Content>
+                        {brands?.map((item) => (
+                          <Select.Item key={item.id} value={item.id}>
+                            {item.name}
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select>
+                  )
+                }}
+            />
+          )}
+
+          {errors.map_link && <span className="text-rose-50 py block text-small">This field is required</span>}
         </div>
       </div>
     </section>
