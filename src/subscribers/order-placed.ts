@@ -42,7 +42,7 @@ export default async function handleOrderPlaced ({
     sendGridService.sendEmail({
       templateId,
       from: fromName,
-      to: 'info@exabeauty.com.ar',
+      to: 'facundocapua@gmail.com',
       dynamic_template_data: emailData
     })
 
