@@ -3,11 +3,13 @@ import {
   type SubscriberArgs,
   OrderService
 } from '@medusajs/medusa'
+import { Resend } from 'resend'
+import OrderShippedEmail from '../emails/order-shipped'
 
 export default async function handleOrderShipped ({
   data, eventName, container, pluginOptions
 }: SubscriberArgs<Record<string, string>>): Promise<void> {
-  const sendGridService = container.resolve('sendgridService')
+  const resend = new Resend(process.env.RESEND_API_KEY)
 
   const orderService: OrderService = container.resolve(
     'orderService'
@@ -37,9 +39,9 @@ export default async function handleOrderShipped ({
   const medusaSettings = salon?.medusa_settings ?? {}
 
   const emailData = {
-    first_name: order.shipping_address.first_name,
-    display_id: order.display_id,
-    tracking_code: tracking.tracking_number
+    firstName: order.shipping_address.first_name,
+    orderNumber: order.display_id,
+    trackingCode: tracking.tracking_number
   }
 
   const templateId = medusaSettings.order_shipped_template ?? process.env.SENDGRID_ORDER_SHIPPED_ID
@@ -47,20 +49,20 @@ export default async function handleOrderShipped ({
 
   console.log('[Sendgrid] Sending email with template', templateId)
 
-  sendGridService.sendEmail({
-    templateId,
-    from: fromName,
+  await resend.emails.send({ 
     to: order.email,
-    dynamic_template_data: emailData
+    from: fromName,
+    subject: '¡Tu pedido está en camino!',
+    react: OrderShippedEmail(emailData),
   })
 
-  console.log('[Sendgrid] Sending copy to eXa')
   if (process.env.NODE_ENV !== 'development') {
-    sendGridService.sendEmail({
-      templateId,
+    console.log('[Sendgrid] Sending copy to eXa')
+    await resend.emails.send({
       from: fromName,
       to: 'facundocapua@gmail.com',
-      dynamic_template_data: emailData
+      subject: '¡Tu pedido está en camino!',
+      react: OrderShippedEmail(emailData),
     })
   }
 }
