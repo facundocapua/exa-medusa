@@ -3,9 +3,10 @@ import {
   type SubscriberArgs,
   OrderService
 } from '@medusajs/medusa'
-import { type Order } from '@medusajs/medusa'
 import { Resend } from 'resend';
 import NewOrderEmail from '../emails/new-order';
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 export default async function handleOrderPlaced ({
   data, eventName, container, pluginOptions
@@ -52,6 +53,8 @@ export default async function handleOrderPlaced ({
     
   })
 
+  await sleep(1000)
+
   // Send copy to eXa
   if (process.env.NODE_ENV !== 'development') {
     console.log('[Resend] Sending copy to eXa')
@@ -61,6 +64,8 @@ export default async function handleOrderPlaced ({
       subject: `[Copy] Estamos procesando tu pedido`,
       react: NewOrderEmail(props),
     })
+
+    await sleep(1000)
 
     if (salon?.email) {
       await resend.emails.send({
